@@ -19,15 +19,19 @@ const Tree = (arr) => {
 
    const cleanArray = (arr) => {
 
-    const sortedArray =  arr.sort()  //sort array
-    
-    const finalArray = new Set(sortedArray) //remove duplicates
+    const noDupeArray = new Set(arr) //remove duplicates
 
-    return finalArray //this clean array gets into buildTree()
+    const toInteger = Array.from(noDupeArray).map((i) => { //turn every element to integer, in order to sort the array properly later.
+           return parseInt(i,10)
+    })
+
+    const sortedArray =  toInteger.sort((a,b)=> { return a - b})  //sort array
+
+    return sortedArray //this clean array gets into buildTree()
 
    }
 
-   const buildTree = (arr) => {
+   const buildTree = (arr,start,end) => {
 
     return arr
 
