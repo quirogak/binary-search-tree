@@ -53,8 +53,7 @@ const Tree = (arr) => {
     
    }
 
-  let root = buildTree(cleanArray(arr))
-
+ let root = buildTree(cleanArray(arr))
 
   const insertNode = (value) =>{
 
@@ -89,9 +88,32 @@ const Tree = (arr) => {
 
   }
 
-  const deleteNode = () => {
+  const deleteNode = (value) => {
 
+    const recursive = (value,obj) => {
 
+      //first case, removing a leaf node.
+      if(obj.left.data == value){  
+        return obj.left = null
+      }
+      if(obj.right.data == value){  
+        return obj.right = null
+      }
+    
+     else {
+      //recursive steps to traverse the BST.
+      if (value < root.data) {      
+        recursive(value,obj.left)
+      }
+      else if(value > obj.data) {
+        recursive(value,obj.right)
+      }
+
+      return obj
+  
+     }
+    }
+    return root = recursive(value,root)
   }
 
 
@@ -105,12 +127,13 @@ const Tree = (arr) => {
 
 let example = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 
+example.deleteNode(1)
+
 console.log(example.root)
-example.insertNode(2)
-console.log(example.root)
 
 
 
+//external function to visualize the BST in the console. (not made by me.)
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.right !== null) {
     prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
