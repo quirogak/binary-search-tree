@@ -5,10 +5,10 @@ const Node = (data,left,right) => {
         data = null
        }
        if (left == undefined){
-        leftN = null
+        left = null
        }
        if (right == undefined){
-        rightN = null
+        right = null
        }
 
     return {data,left,right}
@@ -56,7 +56,7 @@ const Tree = (arr) => {
   let root = buildTree(cleanArray(arr))
 
 
-  const insert = (value) =>{
+  const insertNode = (value) =>{
 
     const recursive = (value,obj) => {
 
@@ -65,10 +65,10 @@ const Tree = (arr) => {
       return obj
     }
     else if (obj.left == null && value < obj.data){       
-      obj.left = value
+      obj.left = Node(value)
     }
     else if (obj.right == null && value > obj.data){       
-      obj.right = value 
+      obj.right = Node(value)
     }
 
    else {
@@ -89,25 +89,40 @@ const Tree = (arr) => {
 
   }
 
+  const deleteNode = () => {
+
+
+  }
 
 
 
 
-   return {root,insert}
+
+   return {root,insertNode,deleteNode}
 
 }
 
 
 let example = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 
-
-
-
-
-console.log(example.insert(2))
-console.log(example.insert(1))
+console.log(example.root)
+example.insertNode(2)
 console.log(example.root)
 
+
+
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+}
+
+
+console.log(prettyPrint(example.root))
 
 
 
