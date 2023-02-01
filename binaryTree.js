@@ -37,17 +37,13 @@ const Tree = (arr) => {
      //starting values, if i set these values as default, the recursive function doesn't work because the end and start values are already stated.
     if(end == undefined){end = arr.length-1}  
     if (start == undefined){start = 0}
-
-    else
     
-    if(start > end) return null  //base case, ends with "leaf nodes"
-
+    if(start > end) return null  //base case, ends the function with "leaf nodes"
 
     let half = Math.ceil((start+end)/2)
 
     let root = Node(arr[half]) //setting the current half value to root node (in a recursion stack, it would be a "sub-root" node).
 
-    
     //in each recursion stack, we are dividing the size of the nodes to the half, depending on which direction of the current root node, we change start or end as half+1 or half-1, getting closer to the base case.
     root.left = buildTree(arr,start,half-1)   
 
@@ -57,17 +53,73 @@ const Tree = (arr) => {
     
    }
 
+  let root = buildTree(cleanArray(arr))
 
-   let root = buildTree(cleanArray(arr)) 
 
-   return {root}
+  const insert = (value) =>{
+
+    const recursive = (value,obj) => {
+
+    //base cases
+    if(value == obj.data){  //in case the value already exists in the BST.
+      return obj
+    }
+    else if (obj.left == null && value < obj.data){       
+      obj.left = value
+    }
+    else if (obj.right == null && value > obj.data){       
+      obj.right = value 
+    }
+
+   else {
+    //recursive steps, which are being used to traverse the BST left and right side, depending if the value is greater or lesser than the root value.
+    
+    if (value < root.data) {      
+      recursive(value,obj.left)
+    }
+    else if(value > obj.data) {
+      recursive(value,obj.right)
+    }
+
+   }
+   return obj
+  }
+  
+  return root = recursive(value,root) // created a closure in order to push the original BST to the recursive function.
+
+  }
+
+
+
+
+
+   return {root,insert}
 
 }
 
 
 let example = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 
-console.log(example)
+
+
+
+
+console.log(example.insert(2))
+console.log(example.insert(1))
+console.log(example.root)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
