@@ -72,55 +72,121 @@ const Tree = (arr) => {
   };
 
   const deleteNode = (value) => {
-
+    let savedNodes = [];
+    let barelyBigger = [];
+  
+    const findBarelyBigger = (value, obj) => {
+      //once there is no barely bigger value
+      if (obj.left == null) {
+        barelyBigger.push(obj); //push the barely bigger Node
+        savedNodes = []; //restart savedNodes
+      } else {
+        if (value < obj.data) {
+          findBarelyBigger(value, obj.left);
+        }
+      }
+    };
+  
     const recursive = (value, obj) => {
+  
+      if (obj.right != null && obj.left != null) { //conditionals to avoid null bugs.
 
-      console.log(obj)
       // first case, removing a leaf node.
       // i had to put these conditionals to make sure the node is indeed a leaf node.
-      if (obj.left.data == value && obj.left.left == null && obj.left.right == null) {
-        return obj.left = null;
-      }
-      if (obj.right.data == value && obj.right.left == null && obj.right.right == null) {
-        return obj.right = null;
-      }
-
-      //second case, node has one child.
-
-      if (obj.left.data == value && (obj.left.left != null || obj.left.right != null) ) {
-       
-        if(obj.left.left != null){
-        return obj.left = obj.left.left  //replace the node with it'ts child.
-        
+        if (
+          obj.left.data == value &&
+          obj.left.left == null &&
+          obj.left.right == null
+        ) {
+          return (obj.left = null);
         }
-        if(obj.left.right != null){
-         return obj.left = obj.left.right
+  
+        if (
+          obj.right.data == value &&
+          obj.right.left == null &&
+          obj.right.right == null
+        ) {
+          return (obj.right = null);
         }
-       
-      }
-      if (obj.right.data == value && (obj.left.left != null || obj.left.right != null)) {
-       
-        if(obj.right.left != null){
-          return obj.right = obj.right.left  //replace the node with it'ts child.
-          
+  
+        //third case, node has two childs.
+  
+        //we need to replace the node for the barely bigger number.
+  
+        if (
+          obj.left.data == value &&
+          obj.left.left != null &&
+          obj.left.right != null
+        ) {
+          savedNodes.push(obj.left.right); //push every value bigger than Node.
+          findBarelyBigger(obj.left.data, savedNodes[0]);
+          deleteNode(barelyBigger[0].data); //remove the swapped number from its original position.
+  
+          //save childs.
+          barelyBigger[0].left = obj.left.left;
+          barelyBigger[0].right = obj.left.right;
+  
+          obj.left = barelyBigger[0];
+  
+          return (barelyBigger = []);
+        }
+  
+        if (
+          obj.right.data == value &&
+          obj.right.left != null &&
+          obj.right.right != null
+        ) {
+          savedNodes.push(obj.right.right); //push every value bigger than Node.
+          findBarelyBigger(obj.right.data, savedNodes[0]);
+          deleteNode(barelyBigger[0].data); //remove the swapped number from its original position.
+  
+          //save childs.
+          barelyBigger[0].left = obj.right.left;
+          barelyBigger[0].right = obj.right.right;
+  
+          obj.right = barelyBigger[0];
+  
+          return (barelyBigger = []);
+        }
+  
+        //second case, node has one child.
+  
+        if (
+          obj.left.data == value &&
+          (obj.left.left != null || obj.left.right != null)
+        ) {
+          if (obj.left.left != null) {
+            return (obj.left = obj.left.left); //replace the node with it'ts child.
           }
-          if(obj.right.right != null){
-           return obj.right = obj.right.right
+          if (obj.left.right != null) {
+            return (obj.left = obj.left.right);
           }
+        }
+  
+        if (
+          obj.right.data == value &&
+          (obj.right.left != null || obj.right.right != null)
+        ) {
+          if (obj.right.left != null) {
+            return (obj.right = obj.right.left); //replace the node with it'ts child.
+          }
+          if (obj.right.right != null) {
+            return (obj.right = obj.right.right);
+          }
+        }
       }
-      
-
-
+  
       // recursive steps to traverse the BST.
       if (value < obj.data) {
         recursive(value, obj.left);
       } else if (value > obj.data) {
         recursive(value, obj.right);
       }
-
+  
       return obj;
     };
-    return root = recursive(value, root);
+  
+    return (root = recursive(value, root));
   };
 
 
@@ -131,9 +197,6 @@ const Tree = (arr) => {
 
 
 const example = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-
-
-example.deleteNode(3);
 
 console.log(example.root);
 
