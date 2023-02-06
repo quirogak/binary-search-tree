@@ -252,9 +252,48 @@ const preorder = () => {
 };
 
 
+const inorder = () => {
+  let finalArray = [];
+
+  const recursive = (obj) => {
+    if (obj == null) return;
+
+    recursive(obj.left);//visit left sub-tree
+    finalArray.push(obj.data); //visit/push root
+    recursive(obj.right);//visit right sub-tree
+
+    
+  };
+
+  recursive(root);
+  return finalArray
+
+
+}
+
+const postorder = () => {
+  let finalArray = [];
+
+  const recursive = (obj) => {
+    if (obj == null) return;
+
+    recursive(obj.left);//visit left sub-tree
+    recursive(obj.right);//visit right sub-tree
+    finalArray.push(obj.data); //visit/push root
+
+    
+  };
+
+  recursive(root);
+  return finalArray
+
+
+}
+
+
   
 
-  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder };
 };
 
 
@@ -263,6 +302,8 @@ const preorder = () => {
 const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 console.log(example.preorder())
+console.log(example.inorder())
+console.log(example.postorder())
 
 
 
