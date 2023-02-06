@@ -233,21 +233,40 @@ const Tree = (arr) => {
     }
 
  return finalArray
+}
 
+const preorder = () => {
 
+  let finalArray = []
 
-  }
+ const recursive = (obj) => {
+
+  if (obj == null) return
+
+  recursive(obj.right)
+  recursive(obj.left)
+
+  finalArray.push(obj.data)
+ 
+ }
+
+ recursive(root)
+ return finalArray.reverse() //to get the correct order
+  
+}
+
   
 
-  return { root, insertNode, deleteNode, find, levelOrder };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder };
 };
 
 
 
 
-const example = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-console.log(example.levelOrder())
+console.log(example.preorder())
+
 
 
 
