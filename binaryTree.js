@@ -236,28 +236,25 @@ const Tree = (arr) => {
 }
 
 const preorder = () => {
+  let finalArray = [];
 
-  let finalArray = []
+  const recursive = (obj) => {
+    if (obj == null) return;
 
- const recursive = (obj) => {
+    finalArray.push(obj.data); //visit/push root
+    recursive(obj.left);//visit left sub-tree
+    recursive(obj.right);//visit right sub-tree
 
-  if (obj == null) return
+  };
 
-  recursive(obj.right)
-  recursive(obj.left)
+  recursive(root);
+  return finalArray;
+};
 
-  finalArray.push(obj.data)
- 
- }
-
- recursive(root)
- return finalArray.reverse() //to get the correct order
-  
-}
 
   
 
-  return { root, insertNode, deleteNode, find, levelOrder, preorder };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder };
 };
 
 
