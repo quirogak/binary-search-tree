@@ -189,8 +189,57 @@ const Tree = (arr) => {
     return (root = recursive(value, root));
   };
 
+  const find = (value) => {
 
-  return { root, insertNode, deleteNode };
+    let result;
+  
+    const recursive = (value, obj) => {
+      if (obj.data == value) {
+        result = obj;
+      }
+  
+      // recursive steps to traverse the BST.
+      if (value < obj.data) {
+        recursive(value, obj.left);
+      } else if (value > obj.data) {
+        recursive(value, obj.right);
+      }
+  
+      return result;
+    };
+    return recursive(value, root);
+  };
+
+  const levelOrder = () => {
+
+    let queue = [root]
+    let finalArray = []
+
+    while (queue[0] != null) {
+
+      //push the root node data into the levelOrder array.
+      finalArray.push(queue[0].data);
+    
+      //then we push the left and right child nodes of the current root.
+      if (queue[0].left != null) {
+        queue.push(queue[0].left);
+      }
+      if (queue[0].right != null) {
+        queue.push(queue[0].right);
+      }
+    
+      //finally, remove the first node so the child nodes occupy the "[0]" index and the loop repeats.
+      queue.shift(); 
+    }
+
+ return finalArray
+
+
+
+  }
+  
+
+  return { root, insertNode, deleteNode, find, levelOrder };
 };
 
 
@@ -198,7 +247,7 @@ const Tree = (arr) => {
 
 const example = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-console.log(example.root);
+console.log(example.levelOrder())
 
 
 
