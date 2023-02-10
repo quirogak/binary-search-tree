@@ -374,10 +374,21 @@ const depth = (value) => {
 
 }
 
+const isBalanced = () => {
+  const leftCount = height(root.left.data);
+
+  const rightCount = height(root.right.data);
+
+  if (leftCount - rightCount >= 2) {
+    return false;
+  } else return true;
+};
+
+
 
   
 
-  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth, isBalanced };
 };
 
 
@@ -386,11 +397,11 @@ const depth = (value) => {
 const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 
-
 example.insertNode(2)
 example.insertNode(0.9)
-console.log(example.depth(2))
-console.log(example.depth(67))
+
+console.log(example.isBalanced())
+
 
 
 
