@@ -17,7 +17,6 @@ const Tree = (arr) => {
   const cleanArray = (arr) => {
     const noDupeArray = new Set(arr); // remove duplicates
 
-    console.log(noDupeArray)
     const toInteger = Array.from(noDupeArray).map((i) => // turn every element to integer, in order to sort the array properly later.
     parseFloat(i, 10));
 
@@ -406,35 +405,40 @@ const rebalance = () => {
 };
 
 
+const randomArray = () => {
+
+  let arrayLength = (Math.random() * (30 - 10 + 1)) + 10 
+
+  let finalArray = []
+
+  for (let i = 0; i < arrayLength; i++) {
+    
+    finalArray.push(parseInt(Math.random() * 100))
+    
+  }
+
+  return finalArray
+}
 
 
-const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-
+const example = Tree(randomArray())
+console.log(example.preorder())
+console.log(example.postorder())
+console.log(example.inorder())
 
 example.insertNode(2)
-example.insertNode(0.9)
-example.insertNode(0.91)
-
-example.deleteNode(2)
-
-console.log(example.rebalance())
+example.insertNode(3)
+example.insertNode(4)
 
 console.log(example.isBalanced())
 
+example.rebalance()
 
+console.log(example.isBalanced())
 
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(example.preorder())
+console.log(example.postorder())
+console.log(example.inorder())
 
 
 
@@ -451,4 +455,4 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-console.log(prettyPrint(example.root));
+console.log(prettyPrint(example.root))
