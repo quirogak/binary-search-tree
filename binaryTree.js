@@ -292,6 +292,7 @@ const postorder = () => {
 }
 
 const height = (value) => {
+
   const currentNode = find(value);
 
   let Nodes = [];
@@ -338,25 +339,45 @@ const height = (value) => {
     Nodes[index] = findPath(node);
   });
 
-  console.log(Nodes)
-
   //return the longest path
   return Math.max(...Nodes);
 };
 
 const depth = (value) => {
 
-  //i can calculate the depth by comparing the root node height and the current node height.
+   //customized "find" method
 
-  const rootHeight = height(root.data)
-  console.log(root.data)
+   const findPath = (value) => {
+
+    let count = 0;
+
+    const recursive = (value, obj) => {
+      
+      if (obj.data == value) return count;
+
+      // recursive steps to traverse the BST.
+      if (value < obj.data) {
+        recursive(value, obj.left);
+        count++;
+      } else if (value > obj.data) {
+        recursive(value, obj.right);
+        count++;
+      }
+      
+      return count;
+      
+    };
+    return recursive(value, root); //compared to height, we just compare the traversal of a value from the root node.
+  };
+
+ return findPath(value)
 
 }
 
 
   
 
-  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth };
 };
 
 
@@ -368,7 +389,8 @@ const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 example.insertNode(2)
 example.insertNode(0.9)
-console.log(example.height(4))
+console.log(example.depth(2))
+console.log(example.depth(67))
 
 
 
