@@ -17,8 +17,9 @@ const Tree = (arr) => {
   const cleanArray = (arr) => {
     const noDupeArray = new Set(arr); // remove duplicates
 
+    console.log(noDupeArray)
     const toInteger = Array.from(noDupeArray).map((i) => // turn every element to integer, in order to sort the array properly later.
-      parseInt(i, 10));
+    parseFloat(i, 10));
 
     const sortedArray = toInteger.sort((a, b) => a - b);
 
@@ -93,6 +94,7 @@ const Tree = (arr) => {
       // first case, removing a leaf node.
       // i had to put these conditionals to make sure the node is indeed a leaf node.
     
+      if(obj.left != null){
         if (
           obj.left.data == value &&
           obj.left.left == null &&
@@ -100,7 +102,9 @@ const Tree = (arr) => {
         ) {
           return (obj.left = null);
         }
-  
+      }
+
+        if(obj.right != null){
         if (
           obj.right.data == value &&
           obj.right.left == null &&
@@ -108,12 +112,14 @@ const Tree = (arr) => {
         ) {
           return (obj.right = null);
         }
+      }
   
         //third case, node has two childs.
   
         //we need to replace the node for the barely bigger number.
 
         if (obj.right != null && obj.left != null) { //conditionals to avoid null bugs.
+
 
         if (
           obj.left.data == value &&
@@ -316,6 +322,8 @@ const height = (value) => {
     let count = 0;
 
     const recursive = (value, obj) => {
+
+  
       
       if (obj.data == value) return count;
 
@@ -375,6 +383,7 @@ const depth = (value) => {
 }
 
 const isBalanced = () => {
+
   const leftCount = height(root.left.data);
 
   const rightCount = height(root.right.data);
@@ -384,11 +393,16 @@ const isBalanced = () => {
   } else return true;
 };
 
+const rebalance = () => {
+
+  const balancedBST = buildTree(cleanArray(preorder())) 
+
+  return Object.assign(root,balancedBST)
+
+}
 
 
-  
-
-  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth, isBalanced };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth, isBalanced, rebalance };
 };
 
 
@@ -399,8 +413,20 @@ const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 example.insertNode(2)
 example.insertNode(0.9)
+example.insertNode(0.91)
+
+example.deleteNode(2)
+
+console.log(example.rebalance())
 
 console.log(example.isBalanced())
+
+
+
+
+
+
+
 
 
 
