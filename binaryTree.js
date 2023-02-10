@@ -106,7 +106,6 @@ const Tree = (arr) => {
           obj.right.left == null &&
           obj.right.right == null
         ) {
-          console.log("jeje")
           return (obj.right = null);
         }
   
@@ -312,9 +311,11 @@ const height = (value) => {
   //customized "find" method
 
   const findPath = (value) => {
+
     let count = 0;
 
     const recursive = (value, obj) => {
+      
       if (obj.data == value) return count;
 
       // recursive steps to traverse the BST.
@@ -325,10 +326,11 @@ const height = (value) => {
         recursive(value, obj.right);
         count++;
       }
-
+      
       return count;
+      
     };
-    return recursive(value, root);
+    return recursive(value, currentNode);
   };
 
   //apply findPath to each leaf node.
@@ -336,9 +338,20 @@ const height = (value) => {
     Nodes[index] = findPath(node);
   });
 
+  console.log(Nodes)
+
   //return the longest path
   return Math.max(...Nodes);
 };
+
+const depth = (value) => {
+
+  //i can calculate the depth by comparing the root node height and the current node height.
+
+  const rootHeight = height(root.data)
+  console.log(root.data)
+
+}
 
 
   
@@ -355,7 +368,9 @@ const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 example.insertNode(2)
 example.insertNode(0.9)
-console.log(example.height(8))
+console.log(example.height(4))
+
+
 
 
 
