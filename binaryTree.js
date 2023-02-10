@@ -89,10 +89,10 @@ const Tree = (arr) => {
   
     const recursive = (value, obj) => {
   
-      if (obj.right != null && obj.left != null) { //conditionals to avoid null bugs.
-
+       
       // first case, removing a leaf node.
       // i had to put these conditionals to make sure the node is indeed a leaf node.
+    
         if (
           obj.left.data == value &&
           obj.left.left == null &&
@@ -106,13 +106,16 @@ const Tree = (arr) => {
           obj.right.left == null &&
           obj.right.right == null
         ) {
+          console.log("jeje")
           return (obj.right = null);
         }
   
         //third case, node has two childs.
   
         //we need to replace the node for the barely bigger number.
-  
+
+        if (obj.right != null && obj.left != null) { //conditionals to avoid null bugs.
+
         if (
           obj.left.data == value &&
           obj.left.left != null &&
@@ -287,13 +290,60 @@ const postorder = () => {
   recursive(root);
   return finalArray
 
-
 }
+
+const height = (value) => {
+  const currentNode = find(value);
+
+  let Nodes = [];
+
+  const recursive = (obj) => {
+    if (obj == null) return;
+
+    //we push the leaf nodes to compare their paths later.
+    if (obj.left == null && obj.right == null) Nodes.push(obj.data);
+
+    recursive(obj.left);
+    recursive(obj.right);
+  };
+
+  recursive(currentNode);
+
+  //customized "find" method
+
+  const findPath = (value) => {
+    let count = 0;
+
+    const recursive = (value, obj) => {
+      if (obj.data == value) return count;
+
+      // recursive steps to traverse the BST.
+      if (value < obj.data) {
+        recursive(value, obj.left);
+        count++;
+      } else if (value > obj.data) {
+        recursive(value, obj.right);
+        count++;
+      }
+
+      return count;
+    };
+    return recursive(value, root);
+  };
+
+  //apply findPath to each leaf node.
+  Nodes.forEach(function (node, index) {
+    Nodes[index] = findPath(node);
+  });
+
+  //return the longest path
+  return Math.max(...Nodes);
+};
 
 
   
 
-  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder };
+  return { root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height };
 };
 
 
@@ -301,9 +351,17 @@ const postorder = () => {
 
 const example = Tree([ 1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-console.log(example.preorder())
-console.log(example.inorder())
-console.log(example.postorder())
+
+
+example.insertNode(2)
+example.insertNode(0.9)
+console.log(example.height(8))
+
+
+
+
+
+
 
 
 
